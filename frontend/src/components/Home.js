@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./Home.css";
 import { json, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 function Home() {
@@ -30,7 +30,8 @@ function Home() {
         }).then(res => res.json())
             .then(result => {
                 console.log(result)
-                setData(result)})
+                setData(result)
+            })
             .catch(err => console.log(err))
 
     }, [])
@@ -130,16 +131,18 @@ function Home() {
             {data.map((posts) => {
                 return (<div className="card">
                     {/* card header */}
-                    <div className="card-header" >
+                    {/* card header */}
+                    <div className="card-header">
                         <div className="card-pic">
-                            <img src={posts.postedBy.Photo? posts.postedBy.Photo :picLink} alt='' />
+                            <img src={posts.postedBy.Photo || picLink} alt='' />
                         </div>
                         <h5>
                             <Link to={`/profile/${posts.postedBy._id}`}>
-                            {posts.postedBy.name}
+                                {posts.postedBy.name}
                             </Link>
-                            </h5>
+                        </h5>
                     </div>
+
                     <div className="card-image">
                         <img src={posts.photo} alt='' />
                     </div>
@@ -182,7 +185,7 @@ function Home() {
                         <div className="details">
                             <div className="card-header" style={{ borderBottom: "1px solid #00000029" }}>
                                 <div className="card-pic">
-                                    <img src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjA0fHxmYWNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt='' />
+                                <img src={item.postedBy.Photo || picLink} alt='' />
                                 </div>
                                 <h5>{item.postedBy.name}</h5>
                             </div>

@@ -125,6 +125,7 @@
 }
 
 
+
 .material-symbols-outlined-comment {
     font-size: 50px;
   font-variation-settings:
@@ -133,3 +134,23 @@
   'GRAD' 0,
   'opsz' 48
 }
+
+@media screen and (max-width: 800px) {
+    .container {
+      flex-direction: column-reverse;
+    }
+  
+    .postPic {
+      order: 2;
+    }
+  
+    .details {
+      order: 1;
+    }
+  
+    .close-comment {
+      position: static;
+      margin-top: 10px;
+      margin-left: auto;
+    }
+  }
