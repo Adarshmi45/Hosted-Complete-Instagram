@@ -97,7 +97,7 @@ function Home() {
     };
 
     const makeComment = (text, id) => {
-        fetch("//comment", {
+        fetch("/comment", {
             method: "put",
             headers: {
                 "Content-Type": "application/json",
