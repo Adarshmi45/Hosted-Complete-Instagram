@@ -1,25 +1,43 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const USER = mongoose.model("USER")
 const POST = mongoose.model("POST");
-const USER = mongoose.model("USER");
+
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const { Jwt_secret } = require("../keys");
 const requireLogin = require("../middlewares/requireLogin");
 
 
-router.get("/user/:id", async (req, res) => {
+
+router.get('/user', requireLogin, (req, res) => {
+    USER.findById(req.user._id)
+      .select('-password')
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      });
+  });
+  
+
+  router.get("/user/:id", async (req, res) => {
     try {
-        const user = await USER.findOne({ _id: req.params.id }).select("-password");
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-
-        const posts = await POST.find({ postedBy: req.params.id }).populate("postedBy", "_id");
-        res.status(200).json({ user, posts });
+      const user = await USER.findById(req.params.id).select("-password");
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      const posts = await POST.find({ postedBy: req.params.id }).populate("postedBy", "_id");
+      res.status(200).json({ user, posts });
     } catch (err) {
-        return res.status(422).json({ error: err.message });
+      return res.status(422).json({ error: err.message });
     }
-});
-
+  });
+  
 router.put('/follow', requireLogin, async (req, res) => {
     try {
         const updatedUser = await USER.findByIdAndUpdate(
